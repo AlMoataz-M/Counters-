@@ -1,0 +1,31 @@
+`timescale 1ns/1ps
+
+module PISO #(parameter N = 4)(
+    input clk, reset, load,
+    input [N-1:0] data_in,
+    output serial_out
+);
+
+reg [N-1:0] q_reg, q_next;
+
+always @(posedge clk, negedge reset)
+begin
+    if(!reset)
+        q_reg <= 'b0;
+    else
+        q_reg <= q_next;
+end
+
+always @(*)
+begin
+    q_next = 'bx;
+    case(load)
+        0: q_next = data_in
+        1: q_next = {data_in[0], q_reg[N-1:1]};      
+        default: q_next = 'bx;
+    endcase
+
+end
+
+assign serial_out = q_reg[0];
+endmodule
