@@ -1,4 +1,4 @@
-module up_counter #(parameter bits = 5) (
+module up_counter #(parameter bits = 15) (
     input clk, reset, 
     output [bits-1:0] q
 );
